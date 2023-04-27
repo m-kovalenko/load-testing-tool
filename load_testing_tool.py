@@ -9,9 +9,9 @@ import asyncio
 import datetime as dt
 
 
-def filter_old_time(l: Sequence[int], retention: dt.timedelta):
+def filter_old_time(lst: Sequence[int], retention: dt.timedelta):
     retention_ns = retention.total_seconds() * 10**9
-    return [e for e in l if e > time.monotonic_ns() - retention_ns]
+    return [e for e in lst if e > time.monotonic_ns() - retention_ns]
 
 
 async def fetch(session: aiohttp.ClientSession, url: str, last_requests_timing: List[int]):
