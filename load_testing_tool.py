@@ -2,7 +2,7 @@
 import argparse
 import time
 from collections import defaultdict
-from typing import Sequence
+from typing import Sequence, List
 
 import aiohttp
 import asyncio
@@ -14,7 +14,7 @@ def filter_old_time(l: Sequence[float], retention: dt.timedelta):
     return [e for e in l if e > time.monotonic_ns() - retention_ns]
 
 
-async def fetch(session, url, last_requests_timing):
+async def fetch(session: aiohttp.ClientSession, url: str, last_requests_timing: List[int]):
     request_start_ns = time.monotonic_ns()
     async with session.get(url) as response:
         request_time_ns = time.monotonic_ns() - request_start_ns
