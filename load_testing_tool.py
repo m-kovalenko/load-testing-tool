@@ -9,7 +9,7 @@ import asyncio
 import datetime as dt
 
 
-def filter_old_time(l: Sequence[float], retention: dt.timedelta):
+def filter_old_time(l: Sequence[int], retention: dt.timedelta):
     retention_ns = retention.total_seconds() * 10**9
     return [e for e in l if e > time.monotonic_ns() - retention_ns]
 
