@@ -29,7 +29,7 @@ async def main(n: int, period: dt.timedelta, endpoints: Sequence[str]):
     interval_ns = round(period.total_seconds() / n * 10**9)
 
     async with aiohttp.ClientSession() as session:
-        cycle_n = time.monotonic_ns() // interval_ns
+        cycle_n = None
         last_requests_timings = defaultdict(list)
 
         while True:
