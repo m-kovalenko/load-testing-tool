@@ -1,4 +1,4 @@
-#!/bin/python3
+#!/usr/bin/python3
 import argparse
 import asyncio
 import datetime as dt
@@ -21,7 +21,7 @@ async def fetch(session: aiohttp.ClientSession, url: str, last_requests_timing: 
         last_requests_timing.append(time.monotonic_ns())
         last_requests_timing = filter_old_time(last_requests_timing, dt.timedelta(minutes=1))
         print(f'[{url}] status code: {response.status} '
-              f'| response time, ms: {round(request_time_ns / 10 ** 6, 2)} '
+              f'| response time, ms: {round(request_time_ns / 10**6, 2)} '
               f'| requests/m: {len(last_requests_timing)}')
 
 
@@ -43,8 +43,7 @@ async def main(n: int, period: dt.timedelta, endpoints: Sequence[str]):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         prog='Requests Benchmark',
-        description='Sends n requests per t minutes on each endpoint',
-        epilog='Text at the bottom of help')
+        description='Sends n requests per t minutes on each endpoint')
     parser.add_argument('-r', '--requests', type=int, required=True, help='requests per minute')
     parser.add_argument('-e', '--endpoints', type=str, nargs='+', required=True, help='list of endpoints')
     parser.add_argument('-p', '--period', type=int, help='period in seconds', default=60)
