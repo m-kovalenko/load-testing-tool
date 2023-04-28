@@ -1,12 +1,12 @@
 #!/bin/python3
 import argparse
+import asyncio
+import datetime as dt
 import time
 from collections import defaultdict
 from typing import Sequence, List
 
 import aiohttp
-import asyncio
-import datetime as dt
 
 
 def filter_old_time(lst: Sequence[int], retention: dt.timedelta):
@@ -21,7 +21,7 @@ async def fetch(session: aiohttp.ClientSession, url: str, last_requests_timing: 
         last_requests_timing.append(time.monotonic_ns())
         last_requests_timing = filter_old_time(last_requests_timing, dt.timedelta(minutes=1))
         print(f'[{url}] status code: {response.status} '
-              f'| response time, ms: {request_time_ns / 10 ** 6} '
+              f'| response time, ms: {round(request_time_ns / 10 ** 6, 2)} '
               f'| requests/m: {len(last_requests_timing)}')
 
 
@@ -38,7 +38,7 @@ async def main(n: int, period: dt.timedelta, endpoints: Sequence[str]):
                 for e in endpoints:
                     asyncio.create_task(fetch(session, e, last_requests_timings[e]))
             else:
-                await asyncio.sleep(0.001)
+                await asyncio.sleep(0.0001)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
